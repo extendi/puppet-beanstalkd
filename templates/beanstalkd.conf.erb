@@ -15,4 +15,7 @@ respawn limit 5 2
 console none
 
 limit nofile <%= @maxconn %> <%= @maxconn %>
-exec su <%= @user %> -c 'exec /usr/bin/beanstalkd -b <%= @binlog %>'
+
+setuid <%= @user %>
+
+exec /usr/bin/beanstalkd -b <%= @binlog %>
