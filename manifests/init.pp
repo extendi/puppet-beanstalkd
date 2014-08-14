@@ -13,7 +13,7 @@ class beanstalkd (
   }
 
   file {'set beanstalkd permissions':
-    path => '/mnt/beanstalkd',
+    path => '/mnt/./beanstalkd',
     owner => $user,
     group => 'nogroup',
     mode => 'u=rwx,go=rx',
