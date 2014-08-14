@@ -69,5 +69,5 @@ class beanstalkd (
     provider => upstart
   }
 
-  Package['beanstalkd'] -> File['set beanstalkd permissions'] -> Exec['stop beanstalkd'] -> File['/etc/init/beanstalkd.conf'] -> Service['start beanstalkd']
+  Package['beanstalkd'] -> File['create beanstalkd directory'] -> Mount['/mnt/beanstalkd'] -> Exec['stop beanstalkd'] -> File['/etc/init/beanstalkd.conf'] -> Service['start beanstalkd']
 }
