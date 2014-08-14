@@ -3,11 +3,20 @@ class beanstalkd (
   $user = 'beanstalkd',
   $maxconn = '10000',
   $binlog = '/mnt/beanstalkd',
-  $daemon_opts = ''
+  $daemon_opts = '',
+  $address = '127.0.0.1',
+  $port = '11300'
 ) {
 
   package {'beanstalkd':
     ensure => present,
+  }
+
+  file {'set beanstalkd permissions':
+    path => '/mnt/beanstalkd',
+    owner => $user,
+    group => 'nogroup',
+    mode => 'u=rwx,go=rx',
   }
 
   exec {'remove beanstalkd from rc.d':
@@ -50,5 +59,5 @@ class beanstalkd (
     provider => upstart
   }
 
-  Package['beanstalkd'] -> Exec['stop beanstalkd'] -> File['/etc/init/beanstalkd.conf'] -> Service['start beanstalkd']
+  Package['beanstalkd'] -> File['set beanstalkd permissions'] -> Exec['stop beanstalkd'] -> File['/etc/init/beanstalkd.conf'] -> Service['start beanstalkd']
 }
