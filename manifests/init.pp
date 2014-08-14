@@ -12,12 +12,21 @@ class beanstalkd (
     ensure => present,
   }
 
-  file {'set beanstalkd permissions':
+  # create if not present beanstalkd folder
+  file { 'create beanstalkd directory':
     path => $binlog,
-    ensure => directory,
+    ensure => "directory",
     owner => $user,
     group => 'nogroup',
     mode => 'u=rwx,go=rx',
+  }
+
+  mount { '/mnt/beanstalkd':
+    device => 'LABEL=beanstalkd',
+    ensure => mounted,
+    fstype => "ext4",
+    atboot => true,
+    options => 'defaults'
   }
 
   exec {'remove beanstalkd from rc.d':
