@@ -14,6 +14,7 @@ class beanstalkd (
 
   file {'set beanstalkd permissions':
     path => $binlog,
+    ensure => directory
     owner => $user,
     group => 'nogroup',
     mode => 'u=rwx,go=rx',
